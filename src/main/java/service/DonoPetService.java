@@ -1,11 +1,12 @@
 package service;
 
 import java.util.List;
-
+import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 
-
+import meu.crud.crud.usuario.Usuario;
 import model.DonoPet;
 import repository.DonoPetRepository;
 
@@ -27,7 +28,7 @@ public class DonoPetService {
 		}	
 	}
 	
-	// Obtém uma lista de dono pelo id
+	// Pega uma lista de dono pelo id
 	public ResponseEntity <DonoPet> findDonoPetById(Long id){
 		return donoPetRepository.findById(id)
 				.map(idExiste-> ResponseEntity.status(200).body(idExiste))
@@ -46,9 +47,16 @@ public class DonoPetService {
 		
 	}
 
-	
-	
-	
+	// Deletar um dono pelo id
+	public ResponseEntity<Object> deletar(Long id) {
+	    Optional<DonoPet> idExistente = donoPetRepository.findById(id);
+	    if (idExistente.isEmpty()) {
+	        return ResponseEntity.status(400).build();
+	    } else {
+	        donoPetRepository.deleteById(id);
+	        return ResponseEntity.status(200).build();
+	    }
+	}
 	
 	
 }
