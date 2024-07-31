@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import meu.crud.crud.usuario.Usuario;
+
+
 import model.DonoPet;
 import repository.DonoPetRepository;
 
@@ -46,6 +46,16 @@ public class DonoPetService {
         }
 		
 	}
+	
+	// Buscar dono de pet pelo nome
+		public ResponseEntity<List<DonoPet>> findDonoPetByName(String nome) {
+		    List<DonoPet> donos = donoPetRepository.findByNome(nome);
+		    if (donos.isEmpty()) {
+		        return ResponseEntity.status(404).build();
+		    } else {
+		        return ResponseEntity.status(200).body(donos);
+		    }
+		}
 
 	// Deletar um dono pelo id
 	public ResponseEntity<Object> deletar(Long id) {

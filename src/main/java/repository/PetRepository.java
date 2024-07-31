@@ -12,4 +12,6 @@ public interface PetRepository extends JpaRepository<Pet, Long>{
 	List<Pet> findByDonoPetId(Long DonoPetId);
 	
 	List<Pet> findByPetIgnoreCase(String nomePet);
+
+	List<Pet> findByNomePet(String nomePet);
 }
