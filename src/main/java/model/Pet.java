@@ -1,28 +1,47 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
 public class Pet {
 
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nomePet;
 	private String raca;
 	private String peso;
 	private String idade;
 	
+	@ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "donoPet_id")
+	private DonoPet donoPet;
+	
 	
 	public Pet () {};
 	
-	public Pet(Long id, String nomePet, String raca, String peso, String idade) {
+	public Pet(Long id, String nomePet, String raca, String peso, String idade, DonoPet donoPet) {
 		super();
 		this.id = id;
 		this.nomePet = nomePet;
 		this.raca = raca;
 		this.peso = peso;
 		this.idade = idade;
+		this.donoPet = donoPet;
 	}
 
 	
 	
 	
+
+
 	public Long getId() {
 		return id;
 	}
@@ -63,6 +82,13 @@ public class Pet {
 		this.idade = idade;
 	}
 	
-	
+	public DonoPet getDonoPet() {
+		return donoPet;
+	}
+
+	public void setDonoPet(DonoPet donoPet) {
+		this.donoPet = donoPet;
+	}
+
 	
 }
