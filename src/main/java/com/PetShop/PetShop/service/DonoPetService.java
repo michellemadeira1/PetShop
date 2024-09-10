@@ -1,22 +1,24 @@
-package service;
+package com.PetShop.PetShop.service;
 
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
+import com.PetShop.PetShop.model.DonoPet;
+import com.PetShop.PetShop.repository.DonoPetRepository;
 
-
-import model.DonoPet;
-import repository.DonoPetRepository;
-
+@Service
 public class DonoPetService {
 	
-
+	  @Autowired
 	private DonoPetRepository donoPetRepository;
 	
 	
-//criar um dono
+
 	public ResponseEntity<List<DonoPet>> postarDonoPet(DonoPet donoPet) {
 		List<DonoPet> usuarioPetExist = donoPetRepository.findByNome(donoPet.getNome());
 		
@@ -28,14 +30,15 @@ public class DonoPetService {
 		}	
 	}
 	
-	// Pega uma lista de dono pelo id
+	
 	public ResponseEntity <DonoPet> findDonoPetById(Long id){
 		return donoPetRepository.findById(id)
 				.map(idExiste-> ResponseEntity.status(200).body(idExiste))
 		.orElse(ResponseEntity.status(404).build());
 	}
 	 
-	//obter uma lista de dono
+
+	
 	public ResponseEntity <List<DonoPet>> findAllDonoPet(){
 		List<DonoPet> listaDeUsuario = donoPetRepository.findAll();
 		
@@ -47,7 +50,8 @@ public class DonoPetService {
 		
 	}
 	
-	// Buscar dono de pet pelo nome
+
+
 		public ResponseEntity<List<DonoPet>> findDonoPetByName(String nome) {
 		    List<DonoPet> donos = donoPetRepository.findByNome(nome);
 		    if (donos.isEmpty()) {
@@ -56,8 +60,26 @@ public class DonoPetService {
 		        return ResponseEntity.status(200).body(donos);
 		    }
 		}
+		
+		
+		
+		public ResponseEntity<DonoPet> atualizar(Long id, DonoPet donoPetAtualizado) {
+		    Optional<DonoPet> donoPetOptional = donoPetRepository.findById(id);
+		    if (donoPetOptional.isPresent()) {
+		        DonoPet donoPet = donoPetOptional.get();
+		        donoPet.setNome(donoPetAtualizado.getNome());
+		        donoPet.setTelefone(donoPetAtualizado.getTelefone());
+		        donoPet.setEndereco(donoPetAtualizado.getEndereco());
+		        // Atualizar outros campos conforme necessário
+		        DonoPet donoPetAtualizadoSalvo = donoPetRepository.save(donoPet);
+		        return ResponseEntity.ok(donoPetAtualizadoSalvo);
+		    } else {
+		        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		    }
+		}
 
-	// Deletar um dono pelo id
+
+	
 	public ResponseEntity<Object> deletar(Long id) {
 	    Optional<DonoPet> idExistente = donoPetRepository.findById(id);
 	    if (idExistente.isEmpty()) {

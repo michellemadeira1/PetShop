@@ -1,27 +1,41 @@
-package model;
+package com.PetShop.PetShop.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
+@Entity
+@Schema(description = "Modelo de dados para Pet")
 public class Pet {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "ID do Pet", example = "1")
 	private Long id;
+    
+    @Schema(description = "Nome do Pet", example = "Rex")
 	private String nomePet;
+    
+    @Schema(description = "Raça do Pet", example = "Labrador")
 	private String raca;
+    
+    @Schema(description = "Peso do Pet", example = "15kg")
 	private String peso;
+    
+    @Schema(description = "Idade do Pet", example = "2 anos")
 	private String idade;
 	
 	@ManyToOne
     @JsonIgnore
     @JoinColumn(name = "donoPet_id")
+	@Schema(description = "Dono do Pet")
 	private DonoPet donoPet;
 	
 	
